@@ -5,13 +5,13 @@ from .models import Post
 
 
 class PostForm(ModelForm):
-	class Meta:
-		model = Post
-		fields = ['text', 'group']
-		labels = {
-			"text": 'Текст поста *',
-			"group": 'Группы'
-		}
-		widgets = {
-			'text': Textarea(attrs = {'style': 'height: 193px;'}),
-		}
+    class Meta:
+        model = Post
+        fields = ['text', 'group']
+        labels = {
+            "text": 'Текст поста *',
+            "group": 'Группы'
+        }
+        widgets = {
+            'text': Textarea(attrs={'style': 'height: 193px;'}),
+        }
