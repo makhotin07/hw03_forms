@@ -30,5 +30,5 @@ class Post(models.Model):
     )
 
 
-class Meta:
-    ordering = ('-pub_date')
+    class Meta:
+        ordering = ('-pub_date')

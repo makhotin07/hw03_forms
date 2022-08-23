@@ -1,18 +1,17 @@
 from django.core.paginator import Paginator
-from django.shortcuts import get_object_or_404
-from django.shortcuts import redirect
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth.decorators import login_required
+
 
 from .forms import PostForm
-from .models import Group
-from .models import Post
-from .models import User
+from .models import Group, Post, User
+
 
 POSTS_PER_PAGE = 10
 
 
 def index(request):
-    post_list = Post.objects.all().order_by('-pub_date')
+    post_list = Post.objects.all()
     paginator = Paginator(post_list, POSTS_PER_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -25,7 +24,7 @@ def index(request):
 def group_posts(request, slug):
     template = 'posts/group_list.html'
     group = get_object_or_404(Group, slug=slug)
-    posts = Post.objects.filter(group=group).order_by('-pub_date')
+    posts = Post.objects.filter(group=group)
     paginator = Paginator(posts, POSTS_PER_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -66,6 +65,7 @@ def post_detail(request, post_id):
     return render(request, template, context)
 
 
+@login_required
 def post_create(request):
     template = 'posts/create_post.html'
 
@@ -86,6 +86,7 @@ def post_create(request):
     return render(request, template, {'form': form})
 
 
+@login_required
 def post_edit(request, post_id):
     template = 'posts/create_post.html'
     post = get_object_or_404(Post, id=post_id)

@@ -2,7 +2,7 @@ from datetime import datetime
 
 
 def year(request):
-    dt = datetime.now().year
+    year_dt = datetime.now().year
     return {
-        'year': dt
+        'year': year_dt
     }

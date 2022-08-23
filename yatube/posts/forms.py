@@ -9,8 +9,8 @@ class PostForm(ModelForm):
         model = Post
         fields = ['text', 'group']
         labels = {
-            "text": 'Текст поста *',
-            "group": 'Группы'
+            'text': 'Текст поста *',
+            'group': 'Группы'
         }
         widgets = {
             'text': Textarea(attrs={'style': 'height: 193px;'}),
