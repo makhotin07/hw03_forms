@@ -1,8 +1,6 @@
 from django.core.paginator import Paginator
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
-
-
 from .forms import PostForm
 from .models import Group, Post, User
 
@@ -24,7 +22,7 @@ def index(request):
 def group_posts(request, slug):
     template = 'posts/group_list.html'
     group = get_object_or_404(Group, slug=slug)
-    posts = Post.objects.filter(group=group)
+    posts = Post.objects.filter(group=group).select_related('group')
     paginator = Paginator(posts, POSTS_PER_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -64,7 +62,6 @@ def post_detail(request, post_id):
     }
     return render(request, template, context)
 
-
 @login_required
 def post_create(request):
     template = 'posts/create_post.html'
@@ -85,7 +82,6 @@ def post_create(request):
 
     return render(request, template, {'form': form})
 
-
 @login_required
 def post_edit(request, post_id):
     template = 'posts/create_post.html'
@@ -99,8 +95,8 @@ def post_edit(request, post_id):
         return redirect('posts:post_detail', post_id=post_id)
 
     if request.method == 'POST':
-        form = PostForm(request.POST)
-        context['form'] = form
+        form = PostForm(request.POST or None)
+        
         if form.is_valid():
             auth_user = request.user
             new_post = form.save(commit=False)
