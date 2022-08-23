@@ -62,6 +62,7 @@ def post_detail(request, post_id):
     }
     return render(request, template, context)
 
+
 @login_required
 def post_create(request):
     template = 'posts/create_post.html'
@@ -82,6 +83,7 @@ def post_create(request):
 
     return render(request, template, {'form': form})
 
+
 @login_required
 def post_edit(request, post_id):
     template = 'posts/create_post.html'
@@ -96,7 +98,7 @@ def post_edit(request, post_id):
 
     if request.method == 'POST':
         form = PostForm(request.POST or None)
-        
+
         if form.is_valid():
             auth_user = request.user
             new_post = form.save(commit=False)
