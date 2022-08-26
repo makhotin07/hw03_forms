@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
+
 from .utils import paginate_posts
 from .forms import PostForm
 from .models import Group, Post, User
@@ -80,7 +81,7 @@ def post_edit(request, post_id):
     if request.user != post.author:
         return redirect('posts:post_detail', post_id=post_id)
 
-    form = PostForm(request.POST or None)
+    form = PostForm(request.POST or None, instance=post)
     if form.is_valid():
         edit_post = form.save(commit=False)
         edit_post.author = post.author
