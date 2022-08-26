@@ -14,6 +14,4 @@ class PostForm(ModelForm):
         }
         widgets = {
             'text': Textarea(attrs={'style': 'height: 193px;'}),
-
         }
-

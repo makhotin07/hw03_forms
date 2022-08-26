@@ -5,7 +5,6 @@ from .utils import paginate_posts
 from .forms import PostForm
 from .models import Group, Post, User
 
-
 POSTS_PER_PAGE = 10
 
 
@@ -83,9 +82,7 @@ def post_edit(request, post_id):
 
     form = PostForm(request.POST or None, instance=post)
     if form.is_valid():
-        edit_post = form.save(commit=False)
-        edit_post.author = post.author
-        edit_post.save()
+        form.save()
         return redirect('posts:post_detail', post_id=post_id)
 
     else:
